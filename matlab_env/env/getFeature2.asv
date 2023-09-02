@@ -1,0 +1,57 @@
+clc;
+clear;
+close all;
+
+tran = [-0.3; 0; 0];
+h = 4;
+feature_i = [0 0 0; 10 0 0; 10 3 0; 3 3 0; 3 6 0; 10 6 0; 10 10 0; 0 10 0;...
+    0 0 h; 10 0 h; 10 3 h; 3 3 h; 3 6 h; 10 6 h; 10 10 h; 0 10 h;] + tran';
+feature_ = [ 3 6 0; 10 6 0; 10 10 0; 0 10 0;...
+    0 0 h; 10 0 h; 10 3 h; 3 3 h; 3 6 h; 10 6 h; 10 10 h; 0 10 h;] + tran';
+
+trans = [-0.3; 0; 0];
+h2 = 2;
+feature = [0 0 0; 10 0 0; 10 3 0; 3 3 0; 3 6 0; 10 6 0; 10 10 0; 0 10 0;...
+    0 0 h; 10 0 h; 10 3 h; 3 3 h; 3 6 h; 10 6 h; 10 10 h; 0 10 h;] + trans';
+feature = feature';
+plot3(feature_i(:, 1), feature_i(:, 2), feature_i(:, 3), 'b.');
+hold on;
+for i = 1:length(feature_i)
+    s = num2str(i);
+    text(feature_i(i, 1)+0.1, feature_i(i, 2)+0.1, feature_i(i, 3)+0.1, s, 'color', 'r');
+end
+tri1 = [1 2 9; 2 9 10; 2 3 10; 3 10 11; 3 4 11; 4 11 12; 4 5 12; 5 12 13;...
+    5 6 13; 6 13 14; 6 7 14; 7 14 15; 7 8 15; 8 15 16; 1 8 9; 8 9 16];
+% tri_ = [41 42 53; 42 53 54; 42 43 54; 43 55 54; ...
+%     43 44 55; 44 55 56; 7 19 44; 19 44 56];
+% tri_ = [3 4 6; 4 7 6; ...
+%     4 5 7; 5 7 8; 1 2 5; 2 5 8;...
+%     9 10 13; 10 13 14; 10 11 14; 11 14 15; 11 12 15; 12 15 16];
+% feature_ = feature_i([7,19,42,43,44,54,55,56, 6,33,34,35,18,45,46,47], :);
+
+% figure(2)
+trisurf(tri1, feature_i(:, 1), feature_i(:, 2), feature_i(:, 3));
+% trisurf(tri_, feature_(:, 1), feature_(:, 2), feature_(:, 3));
+
+M = length(feature(1, :));
+id1 = 1:length(feature_i(:, 1));
+vertex = feature_i';
+% feature_ = [10 40 6; 15 30 6; 0 40 6; 0 30 6]';
+
+goalx = -1:1.5:13;
+goaly = -0.7:1.5:35;
+goalz = [0.5,0.75];
+% goalx = -1:3:26;
+% goaly = -1:3:71;
+% goalz = 2:2:6;
+unknown = [];
+for x = 1:length(goalx)
+    for y = 1:length(goaly)
+        for z = 1:length(goalz)
+            unknown = [unknown, [x; y; z]];
+        end
+    end
+end
+save dataFeature2 M feature id1 tri1 goalx goaly goalz unknown feature_ tri_ vertex
+% 
+% axis([-4 4 -4 4 -4 4]);
